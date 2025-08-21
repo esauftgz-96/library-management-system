@@ -6,10 +6,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,18 +30,16 @@ public class BookCtrler {
 		return bookService.getAllBooks();
 	}
 	
-	@GetMapping("/title/{partialString}")
-	public List<BookModel> getAllBooksByTitle (String partialString) {
-		return bookService.getAllBooksByTitle(partialString);
-	}
-	
-	@GetMapping("/category/{partialString}")
-	public List<BookModel> getAllBooksByCategory (String partialString) {
-		return bookService.getAllBooksByCategory(partialString);
+	@GetMapping("/filter")
+	public List<BookModel> getFilteredBooks (
+			@RequestParam(defaultValue="") String title,
+			@RequestParam(defaultValue="") String author,
+			@RequestParam(defaultValue="") String category) {
+		return bookService.getFilteredBooks(title,author,category);
 	}
 	
 	@GetMapping("/id/{uid}")
-	public Optional<BookModel> getBookById (Long uid) {
+	public Optional<BookModel> getBookById (@PathVariable Long uid) {
 		return bookService.getBookById(uid);
 	}
 	
@@ -49,7 +49,7 @@ public class BookCtrler {
 	}
 	
 	@DeleteMapping("/delete/{uid}")
-	public void deleteBook (Long uid) {
+	public void deleteBook (@PathVariable Long uid) {
 		bookService.deleteBook(uid);
 	}
 }

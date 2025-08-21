@@ -21,14 +21,9 @@ public class BookService {
 		return bookRepo.findAll();
 	}
 	
-	//Find books by title
-	public List<BookModel> getAllBooksByTitle (String partialString) {
-		return bookRepo.findByTitleContainingIgnoreCase(partialString);
-	}
-	
-	//Find books by category
-	public List<BookModel> getAllBooksByCategory (String partialString) {
-		return bookRepo.findByCategoryContainingIgnoreCase(partialString);
+	//Find books by title, category, and author
+	public List<BookModel> getFilteredBooks(String title, String author, String category) {
+		return bookRepo.getFilteredBooks(title,author,category);
 	}
 	
 	//Find book by id

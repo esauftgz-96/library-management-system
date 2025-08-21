@@ -2,6 +2,7 @@ package com.fsd.lending;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fsd.books.BookModel;
 import com.fsd.users.UserModel;
 
@@ -25,10 +26,12 @@ public class LendingModel {
 	
 	@ManyToOne
 	@JoinColumn(name="book_uid")
+	@JsonIgnoreProperties("lends")
 	private BookModel book;
 	
 	@ManyToOne
 	@JoinColumn(name="user_uid")
+	@JsonIgnoreProperties("lends")
 	private UserModel user;
 	
 	@Column(name="borrow_date")
@@ -36,7 +39,6 @@ public class LendingModel {
 	private LocalDate borrowDate;
 	
 	@Column(name="return_date")
-	@NotNull
 	private LocalDate returnDate;
 	
 	@Column(name="renewal_count")

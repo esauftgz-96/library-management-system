@@ -3,6 +3,7 @@ package com.fsd.books;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fsd.lending.LendingModel;
 
 import jakarta.persistence.CascadeType;
@@ -159,6 +160,7 @@ public class BookModel {
 	}
 	
 	@OneToMany (mappedBy="book",cascade=CascadeType.ALL)
+	@JsonIgnoreProperties("book")
 	private List<LendingModel> lends = new ArrayList<>();
 
 	public List<LendingModel> getLends() {

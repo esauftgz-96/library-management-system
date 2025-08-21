@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +37,7 @@ public class LendingCtrler {
 	}
 	
 	@GetMapping("/id/{uid}")
-	public Optional<LendingModel> getLendingById (Long uid) {
+	public Optional<LendingModel> getLendingById (@PathVariable Long uid) {
 		return lendingService.getLendingById(uid);
 	}
 	
@@ -46,7 +47,7 @@ public class LendingCtrler {
 	}
 	
 	@DeleteMapping("/delete/{uid}")
-	public void deleteLending (Long uid) {
+	public void deleteLending (@PathVariable Long uid) {
 		lendingService.deleteLending(uid);
 	}
 }

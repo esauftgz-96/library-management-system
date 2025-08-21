@@ -1,7 +1,10 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login } from './pages/Login';
 import { AuthProvider } from './components/AuthHandler';
+
+import { Login } from './pages/Login';
+import { Registration } from './pages/Registration';
+import { HomePage } from './pages/HomePage';
 
 function App() {
 
@@ -11,8 +14,18 @@ function App() {
         <BrowserRouter>
           <Routes>
             {/* <Route path="/" element={< />} /> */}
-            <Route index element={<Login/>}/>
+            <Route path="/homepage" element={<Login/>}/>
             <Route path="/registration" element={<Registration/>}/>
+
+            <Route path="/homepage" element={<HomePage />} />
+            <Route path="/library" element={<Library />} />
+            <Route path="/mybooks" element={<MyBooks />} />
+            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/adminprofile" element={<AdminProfile />} />
+            <Route path="/addbooks" element={<AddBooks />} />
+            <Route path="/editbooks" element={<EditBooks />} />
+            <Route path="/lendbooks" element={<LendBooks />} />
+            <Route path="/returnbooks" element={<ReturnBooks />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

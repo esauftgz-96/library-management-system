@@ -6,8 +6,7 @@ import { verifyPassword } from "../components/PasswordHandler";
 
 
 export const Login = () => {
-    const baseUrl = "http://localhost:8080"
-    const {login} = useAuth();
+    const {login, baseUrl} = useAuth();
     const navigate = useNavigate();
 
     const[email,setEmail] = useState("");
@@ -23,25 +22,31 @@ export const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //remember: res await, then extract with .data
-        const res = await axios.get(baseUrl+`/email/${email}`);
-        const user = res.data;
-        const passwordCheck = await verifyPassword(password, user.passwordHashed)
-        if (user && passwordCheck) {
-            login(user);
-            navigate('/main');
-        } else {
-            alert('Email does not exist or password is wrong. Please try again.');
-            setEmail("");
-            setPassword("");
+        try {
+            //remember: res await, then extract with .data
+            const res = await axios.get(baseUrl+`/api/user/email/${email}`);
+            const user = res.data;
+            const passwordCheck = await verifyPassword(password, user.passwordHashed)
+            if (user && passwordCheck) {
+                alert('Login successful!');
+                login(user);
+                navigate('/main');
+            } else {
+                alert('Email does not exist or password is wrong. Please try again.');
+                setEmail("");
+                setPassword("");
+            }
+        } catch {
+            alert('Server/axios error occured, please try again.');
         }
     };
 
     return (
         <>
+            <h1>Login Page</h1>
             <form onSubmit={handleSubmit}>
-                <input type="text" value={email} onChange={handleEmail}/>
-                <input type="password" value={password} onChange={handlePassword}/>
+                <label htmlFor="email">Email:</label> <input type="text" id="email" value={email} onChange={handleEmail}/>
+                <label htmlFor="password">Password:</label> <input type="password" id="password" value={password} onChange={handlePassword}/>
                 <button>Submit</button>
             </form>
 

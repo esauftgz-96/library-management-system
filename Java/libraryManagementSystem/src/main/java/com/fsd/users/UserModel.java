@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fsd.lending.LendingModel;
 
 import jakarta.persistence.CascadeType;
@@ -159,6 +160,7 @@ public class UserModel {
 	}
 	
 	@OneToMany (mappedBy="user",cascade=CascadeType.ALL)
+	@JsonIgnoreProperties("user")
 	private List<LendingModel> lends = new ArrayList<>();
 
 	public List<LendingModel> getLends() {
