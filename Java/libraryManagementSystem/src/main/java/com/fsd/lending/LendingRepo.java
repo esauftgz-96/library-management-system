@@ -10,4 +10,6 @@ public interface LendingRepo extends JpaRepository<LendingModel, Long>{
 
 	List<LendingModel> findByUser(UserModel user);
 
+	List<LendingModel> findByUser_Id(Long userId);
+
 }

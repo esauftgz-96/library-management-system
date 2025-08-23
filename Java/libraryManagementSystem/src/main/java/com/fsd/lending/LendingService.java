@@ -28,6 +28,11 @@ public class LendingService {
 		return lendingRepo.findByUser(user);
 	}
 	
+	//Find lending by user id
+	public List<LendingModel> getAllLendingsByUserId (Long userId) {
+		return lendingRepo.findByUser_Id(userId);
+	}
+	
 	//Find lending by id
 	public Optional<LendingModel> getLendingById (Long uid) {
 		return lendingRepo.findById(uid);

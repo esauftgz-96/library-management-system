@@ -33,11 +33,11 @@ export const UserProfile = () => {
         e.preventDefault();
         try {
             const res = await axios.put(baseUrl+`/api/user/update`,userDetails)
-            if (res.status === 200 && res.data === userDetails) {
+            if (res.status === 200 && res.data.name === userDetails.name) {
                     alert('Account Updated');
                     login(userDetails);
                 } else {
-                    alert('Something went wrong, try again.');
+                    alert('Something went wrong, please try again.');
                 }
         } catch {
             alert('Server/axios error occured, please try again.');
@@ -90,7 +90,7 @@ export const UserProfile = () => {
 
         <form onSubmit={handleSubmit}>
             <label htmlFor="name"></label>Name<input id="name" type="text" value={userDetails.name} onChange={handleForm}/>
-            <label htmlFor="birthday">Date of Birth</label><input id="birthday" type="text" value={userDetails.birthday} onChange={handleForm}/>
+            <label htmlFor="birthday">Date of Birth</label><input id="birthday" type="date" value={userDetails.birthday} onChange={handleForm}/>
             <label htmlFor="address">Address</label><input id="address" type="text" value={userDetails.address} onChange={handleForm}/>
             <label htmlFor="contactNumber">Contact</label><input id="contactNumber" type="text" value={userDetails.contactNumber} onChange={handleForm}/>
             <button>Save Changes</button>

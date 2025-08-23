@@ -41,6 +41,11 @@ public class LendingCtrler {
 		return lendingService.getLendingById(uid);
 	}
 	
+	@GetMapping("/userid/{userId}")
+	public List<LendingModel> getAllLendingsByUserId (@PathVariable Long userId) {
+		return lendingService.getAllLendingsByUserId(userId);
+	}
+	
 	@PutMapping("/update")
 	public LendingModel updateLending (@RequestBody LendingModel lending) {
 		return lendingService.updateLending(lending);

@@ -26,11 +26,17 @@ export const Login = () => {
             //remember: res await, then extract with .data
             const res = await axios.get(baseUrl+`/api/user/email/${email}`);
             const user = res.data;
-            const passwordCheck = await verifyPassword(password, user.passwordHashed)
-            if (user && passwordCheck) {
-                alert('Login successful!');
-                login(user);
-                navigate('/main');
+            if (user) {
+                const passwordCheck = await verifyPassword(password, user.passwordHashed);
+                if (passwordCheck) {
+                    alert('Login successful!');
+                    login(user);
+                    navigate('/main');
+                } else {
+                    alert('Email does not exist or password is wrong. Please try again.');
+                    setEmail("");
+                    setPassword("");
+                }
             } else {
                 alert('Email does not exist or password is wrong. Please try again.');
                 setEmail("");

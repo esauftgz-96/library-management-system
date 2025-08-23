@@ -7,7 +7,6 @@ import { useAuth } from '../components/AuthHandler';
 export const Registration = () => {
     const {baseUrl} = useAuth();
     const navigate = useNavigate();
-
     const [registrationForm, setRegistrationForm] = useState({
         //uid is auto increment
         name: "",

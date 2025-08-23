@@ -11,15 +11,16 @@ export const MyBooks = () => {
 
     useEffect(
         ()=>{
-            try {
-                const getLendings = async() => {
-                    const res = await axios.get(baseUrl+`/api/lending/user`,user);
+            const getLendings = async() => {
+                try {
+                    const res = await axios.get(baseUrl+`/api/lending/userid/${user.uid}`);
                     setLendings(res.data);
+                } catch {
+                    alert('Server/axios error occured, please try again.');
                 }
-                getLendings();
-            } catch {
-                alert('Server/axios error occured, please try again.');
+                
             }
+            getLendings();
         // eslint-disable-next-line react-hooks/exhaustive-deps
         },[refresh]
     );
