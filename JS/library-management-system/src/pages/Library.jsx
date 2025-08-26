@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
+import '../css/PagesWithTables.css';
 
 export const Library = () => {
     const {baseUrl} = useAuth();
@@ -31,7 +32,7 @@ export const Library = () => {
             };
             getBooks(filter.title,filter.author,filter.category); 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        },[baseUrl,refresh]
+        },[refresh]
     );
 
     const handleRefreshAll = () => {
@@ -57,8 +58,19 @@ export const Library = () => {
 
     return (<>
         <Navbar/>
-        <h1>Book List</h1>
-        <div>
+        <div className="container">
+            <h1 className="windowheader">Book List</h1>
+            <div className="windowcontent">
+                <button onClick={handleRefreshAll} className="submitbutton">Show All Books</button>
+                <div  className="inputbox">
+                    <label htmlFor="title">Title:</label><input id="title" type="text" value={filter.title} onChange={handleFilter}/>
+                    <label htmlFor="author">Author:</label><input id="author" type="text" value={filter.author} onChange={handleFilter}/>
+                    <label htmlFor="category">Category:</label><input id="category" type="text" value={filter.category} onChange={handleFilter}/>            
+                    <button onClick={handleRefreshFilter} className="submitbutton">Show by Filter</button>
+                </div>
+            </div>
+        </div>
+        <div className="tablecontainer">
             <table>
                 <thead>
                     <tr>
@@ -88,13 +100,6 @@ export const Library = () => {
                 </tbody>
                 
             </table>
-        </div>
-        <button onClick={handleRefreshAll}>Show All Books</button>
-        <div>
-            <label htmlFor="title">Title:</label><input id="title" type="text" value={filter.title} onChange={handleFilter}/>
-            <label htmlFor="author">Author:</label><input id="author" type="text" value={filter.author} onChange={handleFilter}/>
-            <label htmlFor="category">Category:</label><input id="category" type="text" value={filter.category} onChange={handleFilter}/>            
-            <button onClick={handleRefreshFilter}>Show by Filter</button>
         </div>
     </>)
 }

@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from 'axios';
 import { hashPassword } from '../components/PasswordHandler';
 import { useAuth } from '../components/AuthHandler';
+import '../css/Registration.css'
 
 export const Registration = () => {
     const {baseUrl} = useAuth();
@@ -64,18 +65,19 @@ export const Registration = () => {
         }
     };
 
-    return (<>
-        <h1>Registration Page</h1>
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Name:</label> <input type='text' id='name' value={registrationForm.name} onChange={handleForm}></input>
-            <label htmlFor="birthday">Date of Birth:</label> <input type='date' id='birthday' value={registrationForm.birthday} onChange={handleForm}></input>
-            <label htmlFor="address">Address:</label> <input type='text' id='address' value={registrationForm.address} onChange={handleForm}></input>
-            <label htmlFor="email">Email:</label> <input type='text' id='email' value={registrationForm.email} onChange={handleForm}></input>
-            <label htmlFor="contactNumber">Contact Number:</label><input type='text' id='contactNumber' value={registrationForm.contactNumber} onChange={handleForm}></input>
-            <label htmlFor="password">Password:</label><input type='password' id='password' value={registrationForm.password} onChange={handleForm}></input>
-            <button>Submit</button>
-        </form>
-
-        <Link to="/login">Have an account? Login here.</Link>
-    </>)
+    return (<div className="container">
+        <h1 className='windowheader'>Registration Page</h1>
+        <div className='windowcontent'>
+            <form onSubmit={handleSubmit} className='inputbox'>
+                <label htmlFor="name">Name:</label> <input type='text' id='name' value={registrationForm.name} onChange={handleForm}></input>
+                <label htmlFor="birthday">Date of Birth:</label> <input type='date' id='birthday' value={registrationForm.birthday} onChange={handleForm}></input>
+                <label htmlFor="address">Address:</label> <input type='text' id='address' value={registrationForm.address} onChange={handleForm}></input>
+                <label htmlFor="email">Email:</label> <input type='text' id='email' value={registrationForm.email} onChange={handleForm}></input>
+                <label htmlFor="contactNumber">Contact Number:</label><input type='text' id='contactNumber' value={registrationForm.contactNumber} onChange={handleForm}></input>
+                <label htmlFor="password">Password:</label><input type='password' id='password' value={registrationForm.password} onChange={handleForm}></input>
+                <button className='submitbutton'>Submit</button>
+            </form>
+            <Link to="/" className='link'>Have an account? Login here.</Link>
+        </div>
+    </div>)
 }

@@ -3,6 +3,7 @@ import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
 import { checkMembership,overdueCalc } from "../components/MathComponents";
+import '../css/PagesWithTables.css';
 
 export const SearchUser = () => {
     const {user,baseUrl,maxLoanPeriod,membershipLength,penaltyPerDay} = useAuth();
@@ -72,56 +73,62 @@ export const SearchUser = () => {
     if (user.isAdmin) {
         return (<>
             <Navbar/>
-            <h1>Search for User/Overdue</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="uid">User ID (exact)</label><input type="number" id="uid" value={filter.uid===-1?"":filter.uid} onChange={handleFilter}/>
-                <label htmlFor="name">Name</label><input type="text" id="name" value={filter.name} onChange={handleFilter}/>
-                <label htmlFor="email">Email</label><input type="text" id="email" value={filter.email} onChange={handleFilter}/>
-                <label htmlFor="checkOverdue">Filter Overdue(Total, exact)?</label><input type="checkbox" id="checkOverdue" checked={filter.checkOverdue} onChange={handleFilter}/><input type="number" id="overdueCount" value={filter.overdueCount} onChange={handleFilter}/>
-                <button>Submit</button>
-            </form>
-
-            <table>
-                <thead>
-                    <tr>
-                        <td>User ID</td>
-                        <td>Name</td>
-                        <td>Date of Birth</td>
-                        <td>Address</td>
-                        <td>Email</td>
-                        <td>Contact Number</td>
-                        <td>Books on Loan</td>
-                        <td>Active Member?</td>
-                        <td>Admin?</td>
-                        <td>Total Overdue Books</td>
-                        <td>Total Accumulated Fines</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        filteredUsers.map(filteredUser=>(
-                            <tr key={filteredUser.uid}>
-                                <td>{filteredUser.uid}</td>
-                                <td>{filteredUser.name}</td>
-                                <td>{filteredUser.birthday}</td>
-                                <td>{filteredUser.address}</td>
-                                <td>{filteredUser.email}</td>
-                                <td>{filteredUser.contactNumber}</td>
-                                <td>{filteredUser.booksLent}</td>
-                                <td>{checkMembership(filteredUser.lastRegistered,membershipLength)}</td>
-                                <td>{filteredUser.isAdmin?"Admin":"User"}</td>
-                                <td>{filteredUser.lends.filter(lend=>lend.returnDate===null).length}</td>
-                                <td>${filteredUser.lends.filter(lend=>lend.returnDate===null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0).toFixed(2)}</td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
+            <div className="container">
+                <h1 className="windowheader">Search for User/Overdue</h1>
+                <div className="windowcontent">
+                    <form onSubmit={handleSubmit} className="inputbox">
+                        <label htmlFor="uid">User ID (exact)</label><input type="number" id="uid" value={filter.uid===-1?"":filter.uid} onChange={handleFilter}/>
+                        <label htmlFor="name">Name</label><input type="text" id="name" value={filter.name} onChange={handleFilter}/>
+                        <label htmlFor="email">Email</label><input type="text" id="email" value={filter.email} onChange={handleFilter}/>
+                        <label htmlFor="checkOverdue">Filter Overdue(Total, exact)?</label><div><input type="checkbox" id="checkOverdue" checked={filter.checkOverdue} onChange={handleFilter}/><input type="number" id="overdueCount" value={filter.overdueCount} onChange={handleFilter}/></div>
+                        <button className="submitbutton">Submit</button>
+                    </form>
+                </div>     
+            </div>
+            
+            <div className="tablecontainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Name</th>
+                            <th>Date of Birth</th>
+                            <th>Address</th>
+                            <th>Email</th>
+                            <th>Contact Number</th>
+                            <th>Books on Loan</th>
+                            <th>Active Member?</th>
+                            <th>Admin?</th>
+                            <th>Total Overdue Books</th>
+                            <th>Total Accumulated Fines</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            filteredUsers.map(filteredUser=>(
+                                <tr key={filteredUser.uid}>
+                                    <td>{filteredUser.uid}</td>
+                                    <td>{filteredUser.name}</td>
+                                    <td>{filteredUser.birthday}</td>
+                                    <td>{filteredUser.address}</td>
+                                    <td>{filteredUser.email}</td>
+                                    <td>{filteredUser.contactNumber}</td>
+                                    <td>{filteredUser.booksLent}</td>
+                                    <td>{checkMembership(filteredUser.lastRegistered,membershipLength)}</td>
+                                    <td>{filteredUser.isAdmin?"Admin":"User"}</td>
+                                    <td>{filteredUser.lends.filter(lend=>lend.returnDate===null).length}</td>
+                                    <td>${filteredUser.lends.filter(lend=>lend.returnDate===null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0).toFixed(2)}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>
         </>)
     } else {
         return (<>
             <Navbar/>
-            <div>
+            <div className="unauthorizeduser">
                 Unauthorized user. Please login to an Admin account to access this page.
             </div>
         </>)

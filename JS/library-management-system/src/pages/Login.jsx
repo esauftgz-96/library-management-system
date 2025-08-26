@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from "../components/AuthHandler";
 import { useNavigate, Link } from 'react-router-dom';
 import { verifyPassword } from "../components/PasswordHandler";
-
+import '../css/Login.css';
 
 export const Login = () => {
     const {login, baseUrl} = useAuth();
@@ -31,7 +31,7 @@ export const Login = () => {
                 if (passwordCheck) {
                     alert('Login successful!');
                     login(user);
-                    navigate('/main');
+                    navigate('/homepage');
                 } else {
                     alert('Email does not exist or password is wrong. Please try again.');
                     setEmail("");
@@ -48,16 +48,17 @@ export const Login = () => {
     };
 
     return (
-        <>
-            <h1>Login Page</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email:</label> <input type="text" id="email" value={email} onChange={handleEmail}/>
-                <label htmlFor="password">Password:</label> <input type="password" id="password" value={password} onChange={handlePassword}/>
-                <button>Submit</button>
-            </form>
-
-            <Link to="/registration">No account? Register here.</Link>
-        </>
+        <div className='container'>
+            <h1 className='windowheader'>Login Page</h1>
+            <div className='windowcontent'>
+                <form onSubmit={handleSubmit} className="inputbox">
+                    <label htmlFor="email">Email:</label> <input type="text" id="email" value={email} onChange={handleEmail}/>
+                    <label htmlFor="password">Password:</label> <input type="password" id="password" value={password} onChange={handlePassword}/>
+                    <button className='submitbutton'>Submit</button>
+                </form>
+                <Link to="/registration" className="link">No account? Register here.</Link>
+            </div>
+        </div>
     )
 }
 

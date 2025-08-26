@@ -3,6 +3,7 @@ import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
 import { overdueCalc } from "../components/MathComponents";
+import '../css/PagesWithTables.css';
 
 export const RenewLoan = () => {
     const {baseUrl,user,maxLoanPeriod,penaltyPerDay,maxRenewalsPerBook} = useAuth();
@@ -125,15 +126,18 @@ export const RenewLoan = () => {
     if (user.isAdmin) {
         return (<>
             <Navbar/>
-            <h1>Book Returns/Loan Renewal</h1>
-            <h1>Select User</h1>
-            <div>
-                <label htmlFor="email">Input email (exact):</label><input type="text" id="email" value={userEmail} onChange={handleEmail}/>
-                <button onClick={searchUser}>Search & Select</button>
-                <div>{!selectedUser.uid?"":<>User Found: {selectedUser.name}</>}</div>
+            <div className="container"><h1 className="windowheader">Book Returns/Loan Renewal</h1></div>
+            <div className="container">
+                <h1 className="windowheader">Select User</h1>
+                <div className="windowcontent">
+                    <div  className="inputbox">
+                        <label htmlFor="email">Input email (exact):</label><input type="text" id="email" value={userEmail} onChange={handleEmail}/>
+                        <button onClick={searchUser} className="submitbutton">Search & Select</button>
+                    </div>
+                    <div className="report">{!selectedUser.uid?"":<>User Found: {selectedUser.name}</>}</div>
+                </div>
             </div>
-            <h1>Pending Loans</h1>
-            <div>
+            <div className="tablecontainer">
                 <table>
                     <thead>
                         <tr>
@@ -165,7 +169,7 @@ export const RenewLoan = () => {
     } else {
         return (<>
             <Navbar/>
-            <div>
+            <div className="unauthorizeduser">
                 Unauthorized user. Please login to an Admin account to access this page.
             </div>
         </>)

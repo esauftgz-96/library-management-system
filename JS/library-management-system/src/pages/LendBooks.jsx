@@ -3,6 +3,7 @@ import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
 import { checkMembership,overdueCalc } from "../components/MathComponents";
+import '../css/PagesWithTables.css';
 
 export const LendBooks = () => {
     const {baseUrl,user,maxLoanPeriod,membershipLength,penaltyPerDay,maxBooksLent} = useAuth();
@@ -139,15 +140,19 @@ export const LendBooks = () => {
     if (user.isAdmin) {
         return (<>
             <Navbar/>
-            <h1>Loan Books</h1>
-            <h1>Step 1: Select Book</h1>
-            <div>
-                <label htmlFor="title">Title:</label><input id="title" type="text" value={filter.title} onChange={handleFilter}/>
-                <label htmlFor="author">Author:</label><input id="author" type="text" value={filter.author} onChange={handleFilter}/>
-                <label htmlFor="category">Category:</label><input id="category" type="text" value={filter.category} onChange={handleFilter}/>            
-                <button onClick={handleRefreshFilter}>Show by Filter</button>
+            <div className="container"><h1 className="windowheader">Loan Books</h1></div>
+            <div className="container">
+                <h1 className="windowheader">Step 1: Select Book</h1>
+                <div className="windowcontent">
+                    <div  className="inputbox">
+                        <label htmlFor="title">Title:</label><input id="title" type="text" value={filter.title} onChange={handleFilter}/>
+                        <label htmlFor="author">Author:</label><input id="author" type="text" value={filter.author} onChange={handleFilter}/>
+                        <label htmlFor="category">Category:</label><input id="category" type="text" value={filter.category} onChange={handleFilter}/>            
+                        <button onClick={handleRefreshFilter} className="submitbutton">Show by Filter</button>
+                    </div>
+                </div>
             </div>
-            <div>
+            <div className="tablecontainer">
                 <table>
                     <thead>
                         <tr>
@@ -180,23 +185,33 @@ export const LendBooks = () => {
                     
                 </table>
             </div>
-            <h1>Step 2: Select User by Email</h1>
-            <div>
-                <label htmlFor="email">Input email:</label><input type="text" id="email" value={userEmail} onChange={handleEmail}/>
-                <button onClick={searchUser}>Search & Select</button>
-                <div>{!selectedUser.uid?"":<>User Found: {selectedUser.name}</>}</div>
+            <div className="container">
+                <h1 className="windowheader">Step 2: Select User by Email</h1>
+                <div className="windowcontent">
+                    <div className="inputbox">
+                        <label htmlFor="email">Input email:</label><input type="text" id="email" value={userEmail} onChange={handleEmail}/>
+                        <button onClick={searchUser} className="submitbutton">Search & Select</button>
+                    </div>
+                    <div className="report">{!selectedUser.uid?"":<>User Found: {selectedUser.name}</>}</div>
+                </div>
             </div>
-            <h1>Step 3: Finalize</h1>
-            <div>
-                <div>Selected Book: {!selectedBook.uid?"None selected":<>{selectedBook.title}</>}</div>
-                <div>Selected User: {!selectedUser.uid?"None selected":<>{selectedUser.name} ({selectedUser.email})</>}</div>
-                <button onClick={submitLoan}>Submit</button>
+            
+            <div className="container">
+                <h1 className="windowheader">Step 3: Finalize</h1>
+                <div className="windowcontent">
+                    <div className="inputbox">
+                        <div>Selected Book: {!selectedBook.uid?"None selected":<>{selectedBook.title}</>}</div>
+                        <div>Selected User: {!selectedUser.uid?"None selected":<>{selectedUser.name} ({selectedUser.email})</>}</div>
+                        <button onClick={submitLoan} className="submitbutton">Submit</button>
+                    </div>
+                </div>
             </div>
+            
         </>)
     } else {
         return (<>
             <Navbar/>
-            <div>
+            <div className="unauthorizeduser">
                 Unauthorized user. Please login to an Admin account to access this page.
             </div>
         </>)

@@ -3,9 +3,11 @@ import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
 import { hashPassword } from "../components/PasswordHandler";
+import { checkMembership } from "../components/MathComponents";
+import '../css/PagesWithTables.css';
 
 export const UserProfile = () => {
-    const {login,user,baseUrl} = useAuth();
+    const {login,user,baseUrl,membershipLength} = useAuth();
     const [userDetails,setUserDetails] = useState({});
     const [refresh, setRefresh] = useState(0);
     const [newPassword,setNewPassword] = useState("");
@@ -68,40 +70,23 @@ export const UserProfile = () => {
         handleRefresh();
     }
 
-    const checkMembership = (lastRegistered) => {
-        const lastRegisteredDate = new Date(lastRegistered);
-        const today = new Date();
-        //clear out timing for absolute days
-        lastRegisteredDate.setHours(0,0,0,0);
-        today.setHours(0,0,0,0);
-        const diffTime = today-lastRegisteredDate;
-        const diffInDays = Math.floor(diffTime/(1000*60*60*24));
-        if (diffInDays <= 365) {
-            return "Active"
-        } else {
-            return "Inactive"
-        }
-    }
-
     return (<>
         <Navbar/>
-        <h1>Profile Details</h1>
-        <button onClick={handleRefresh}>Refresh</button>
+        <div className="container">
+            <h1 className="windowheader">Profile Details</h1>
+            <div className="windowcontent">
+                <button onClick={handleRefresh} className="submitbutton">Refresh</button>
+                <form onSubmit={handleSubmit}  className="inputbox">
+                    <label htmlFor="name"></label>Name<input id="name" type="text" value={userDetails.name} onChange={handleForm}/>
+                    <label htmlFor="birthday">Date of Birth</label><input id="birthday" type="date" value={userDetails.birthday} onChange={handleForm}/>
+                    <label htmlFor="address">Address</label><input id="address" type="text" value={userDetails.address} onChange={handleForm}/>
+                    <label htmlFor="contactNumber">Contact</label><input id="contactNumber" type="text" value={userDetails.contactNumber} onChange={handleForm}/>
+                    <button className="submitbutton">Save Changes</button>
+                </form> 
+            </div>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="name"></label>Name<input id="name" type="text" value={userDetails.name} onChange={handleForm}/>
-            <label htmlFor="birthday">Date of Birth</label><input id="birthday" type="date" value={userDetails.birthday} onChange={handleForm}/>
-            <label htmlFor="address">Address</label><input id="address" type="text" value={userDetails.address} onChange={handleForm}/>
-            <label htmlFor="contactNumber">Contact</label><input id="contactNumber" type="text" value={userDetails.contactNumber} onChange={handleForm}/>
-            <button>Save Changes</button>
-        </form>
-
-        <form onSubmit={handlePasswordChange}>
-            <label htmlFor="password">New Password:</label><input id="password" type="text" value={newPassword} onChange={handlePassword}/>
-            <button>Change Password (Warning: Irreversible)</button>
-        </form>
-        
-        <div>
+        <div className="tablecontainer">
             <table>
                 <tr>
                     <th>Email (Login ID)</th>
@@ -109,7 +94,7 @@ export const UserProfile = () => {
                 </tr>
                 <tr>
                     <th>Membership Status</th>
-                    <td>{checkMembership(userDetails.lastRegistered)}</td>
+                    <td>{checkMembership(userDetails.lastRegistered,membershipLength)}</td>
                 </tr>
                 <tr>
                     <th>Membership Last Renewed</th>
@@ -124,6 +109,16 @@ export const UserProfile = () => {
                     <td>{userDetails.isAdmin?"Admin":"User"}</td>
                 </tr>
             </table>
+        </div>
+
+        <div className="container">
+            <h1 className="windowheader">Password Management</h1>
+            <div className="windowcontent">
+                <form onSubmit={handlePasswordChange} className="inputbox">
+                    <label htmlFor="password">New Password:</label><input id="password" type="text" value={newPassword} onChange={handlePassword}/>
+                    <button className="submitbutton">Change Password (Warning: Irreversible)</button>
+                </form>
+            </div>
         </div>
     </>)
 }

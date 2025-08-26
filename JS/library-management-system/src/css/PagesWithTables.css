@@ -1,0 +1,132 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 30vw 0;
+    padding: 0 0 5px;
+
+    border: solid;
+    border-width: 2px;
+    border-bottom-color: #424242;
+    border-right-color: #424242;
+    border-left-color: #fff;
+    border-top-color: #fff;
+    background: silver;
+    color: #212529;
+}
+
+.windowheader {
+    background: linear-gradient(to right, #08216b,#a5cef7);
+    color: white;
+    padding: 3px 20px 3px;
+    margin: 0;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #424242;
+    border-right: 2px solid #424242;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.windowcontent {
+    padding: 10px 0 0 0;
+}
+
+.inputbox {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    column-gap: 10px;
+    row-gap:4px;
+}
+
+.inputboxwithspacing {
+    margin: 10px 0;
+}
+
+.submitbutton {
+    display: block;
+    width: 100%;
+    border-width: 2px;
+    font-weight: bolder;
+    border-style: outset;
+    border-color: white black black white;
+    border-right-color: #424242;
+    border-bottom-color: #424242;
+    background: silver;
+    color: black;
+    margin: 15px 0 15px 0;
+    padding: 4px;
+    border-radius: 1px;
+
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.submitbutton:active {
+  background: #a9a9a9;
+  border-color: #424242 white white #424242;
+}
+
+.tablecontainer {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    margin: 15px;
+
+    border-collapse: collapse;
+    border: solid;
+    border-width: 2px;
+    border-bottom-color: #424242;
+    border-right-color: #424242;
+    border-left-color: #fff;
+    border-top-color: #fff;
+    background: silver;
+    color: #212529;
+
+    text-align: left;
+}
+
+td, th {
+    border: solid;
+    padding: 3px 12px;
+}
+
+th {
+    background: #08216b;
+    color: white;
+    border-color: black;
+}
+
+.buttoncontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 30vw 0;
+    padding: 10px 0;
+
+    border: solid;
+    border-width: 2px;
+    border-bottom-color: #424242;
+    border-right-color: #424242;
+    border-left-color: #fff;
+    border-top-color: #fff;
+    background: silver;
+    color: #212529;
+}
+
+.specialbutton {
+    margin: 4px;
+    padding: 4px 0;
+    width: 400px;
+}
+
+.report {
+    margin: 10px 0;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+}

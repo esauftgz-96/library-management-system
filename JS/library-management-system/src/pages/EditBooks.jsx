@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
+import '../css/PagesWithTables.css';
 
 export const EditBooks = () => {
     const {baseUrl,user} = useAuth();
@@ -110,15 +111,19 @@ export const EditBooks = () => {
     if (user.isAdmin) {
         return (<>
             <Navbar/>
-            <h1>Edit Books</h1>
-            <h1>Filter Books (Click Select to Further Edit)</h1>
-            <div>
-                <label htmlFor="title">Title:</label><input id="title" type="text" value={filter.title} onChange={handleFilter}/>
-                <label htmlFor="author">Author:</label><input id="author" type="text" value={filter.author} onChange={handleFilter}/>
-                <label htmlFor="category">Category:</label><input id="category" type="text" value={filter.category} onChange={handleFilter}/>            
-                <button onClick={handleRefreshFilter}>Show by Filter</button>
+            <div className="container"><h1 className="windowheader">Edit Books</h1></div>
+            <div className="container">
+                <h1 className="windowheader">Filter Books (Click Select to Further Edit)</h1>
+                <div className="windowcontent">
+                    <div  className="inputbox">
+                        <label htmlFor="title">Title:</label><input id="title" type="text" value={filter.title} onChange={handleFilter}/>
+                        <label htmlFor="author">Author:</label><input id="author" type="text" value={filter.author} onChange={handleFilter}/>
+                        <label htmlFor="category">Category:</label><input id="category" type="text" value={filter.category} onChange={handleFilter}/>            
+                        <button onClick={handleRefreshFilter} className="submitbutton">Show by Filter</button>
+                    </div>
+                </div>
             </div>
-            <div>
+            <div className="tablecontainer">
                 <table>
                     <thead>
                         <tr>
@@ -151,25 +156,29 @@ export const EditBooks = () => {
                     
                 </table>
             </div>
-            <h1>Edit Selected Book</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="uid">UID (Fixed):</label>{selectedBook.uid===0?"":selectedBook.uid}
-                <label htmlFor="isbn">ISBN:</label><input type="text" id="isbn" value={selectedBook.isbn} onChange={handleBookChange}/>
-                <label htmlFor="title">Title:</label><input type="text" id="title" value={selectedBook.title} onChange={handleBookChange}/>
-                <label htmlFor="publicationYear">Year of Publication:</label><input type="number" id="publicationYear" value={selectedBook.uid===0?"":selectedBook.publicationYear} onChange={handleBookChange}/>
-                <label htmlFor="author">Author:</label><input type="text" id="author" value={selectedBook.author} onChange={handleBookChange}/>
-                <label htmlFor="category">Category:</label><input type="text" id="category" value={selectedBook.category} onChange={handleBookChange}/>
-                <label htmlFor="physicalSection">Physical Location:</label><input type="text" id="physicalSection" value={selectedBook.physicalSection} onChange={handleBookChange}/>
-                <label htmlFor="copiesAvailable">Copies Available:</label><input type="number" id="copiesAvailable" value={selectedBook.uid===0?"":selectedBook.copiesAvailable} onChange={handleBookChange}/>
-                <label htmlFor="copiesReserved">Copies Reserved:</label><input type="number" id="copiesReserved" value={selectedBook.uid===0?"":selectedBook.copiesReserved} onChange={handleBookChange}/>
-                <label htmlFor="copiesLent">Copies on Loan (Change in Return Books):</label>{selectedBook.uid===0?"":selectedBook.copiesLent}
-                <button>Submit Changes</button>
+            <div className="container">
+                <h1 className="windowheader">Edit Selected Book</h1>
+                <div className="windowcontent">
+                    <form onSubmit={handleSubmit}   className="inputbox">
+                    <label htmlFor="uid">UID (Fixed):</label><div>{selectedBook.uid===0?"":selectedBook.uid}</div>
+                    <label htmlFor="isbn">ISBN:</label><input type="text" id="isbn" value={selectedBook.isbn} onChange={handleBookChange}/>
+                    <label htmlFor="title">Title:</label><input type="text" id="title" value={selectedBook.title} onChange={handleBookChange}/>
+                    <label htmlFor="publicationYear">Year of Publication:</label><input type="number" id="publicationYear" value={selectedBook.uid===0?"":selectedBook.publicationYear} onChange={handleBookChange}/>
+                    <label htmlFor="author">Author:</label><input type="text" id="author" value={selectedBook.author} onChange={handleBookChange}/>
+                    <label htmlFor="category">Category:</label><input type="text" id="category" value={selectedBook.category} onChange={handleBookChange}/>
+                    <label htmlFor="physicalSection">Physical Location:</label><input type="text" id="physicalSection" value={selectedBook.physicalSection} onChange={handleBookChange}/>
+                    <label htmlFor="copiesAvailable">Copies Available:</label><input type="number" id="copiesAvailable" value={selectedBook.uid===0?"":selectedBook.copiesAvailable} onChange={handleBookChange}/>
+                    <label htmlFor="copiesReserved">Copies Reserved:</label><input type="number" id="copiesReserved" value={selectedBook.uid===0?"":selectedBook.copiesReserved} onChange={handleBookChange}/>
+                    <label htmlFor="copiesLent">Copies on Loan (Change in Return Books):</label><div>{selectedBook.uid===0?"":selectedBook.copiesLent}</div>
+                    <button className="submitbutton">Submit Changes</button>
             </form>
+                </div>
+            </div>    
         </>)
     } else {
         return (<>
             <Navbar/>
-            <div>
+            <div className="unauthorizeduser">
                 Unauthorized user. Please login to an Admin account to access this page.
             </div>
         </>)
