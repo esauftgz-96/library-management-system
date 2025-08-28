@@ -65,7 +65,7 @@ export const Registration = () => {
         }
     };
 
-    return (<div className="container">
+    return (<div className="containerreg">
         <h1 className='windowheader'>Registration Page</h1>
         <div className='windowcontent'>
             <form onSubmit={handleSubmit} className='inputbox'>

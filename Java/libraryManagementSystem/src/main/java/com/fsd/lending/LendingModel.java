@@ -2,7 +2,8 @@ package com.fsd.lending;
 
 import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fsd.books.BookModel;
 import com.fsd.users.UserModel;
 
@@ -26,19 +27,20 @@ public class LendingModel {
 	
 	@ManyToOne
 	@JoinColumn(name="book_uid")
-	@JsonIgnoreProperties("lends")
+//	@JsonBackReference(value="book-lend")
 	private BookModel book;
 	
 	@ManyToOne
 	@JoinColumn(name="user_uid")
-	@JsonIgnoreProperties("lends")
+//	@JsonBackReference(value="user-lend")
 	private UserModel user;
 	
 	@Column(name="borrow_date")
 	@NotNull
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate borrowDate;
 	
-	@Column(name="return_date")
+	@Column(name="return_date", nullable=true)
 	private LocalDate returnDate;
 	
 	@Column(name="renewal_count")
@@ -57,4 +59,54 @@ public class LendingModel {
 	public LendingModel() {
 		super();
 	}
+
+	public Long getUid() {
+		return uid;
+	}
+
+	public void setUid(Long uid) {
+		this.uid = uid;
+	}
+
+	public BookModel getBook() {
+		return book;
+	}
+
+	public void setBook(BookModel book) {
+		this.book = book;
+	}
+
+	public UserModel getUser() {
+		return user;
+	}
+
+	public void setUser(UserModel user) {
+		this.user = user;
+	}
+
+	public LocalDate getBorrowDate() {
+		return borrowDate;
+	}
+
+	public void setBorrowDate(LocalDate borrowDate) {
+		this.borrowDate = borrowDate;
+	}
+
+	public LocalDate getReturnDate() {
+		return returnDate;
+	}
+
+	public void setReturnDate(LocalDate returnDate) {
+		this.returnDate = returnDate;
+	}
+
+	public int getRenewalCount() {
+		return renewalCount;
+	}
+
+	public void setRenewalCount(int renewalCount) {
+		this.renewalCount = renewalCount;
+	}
+	
+	
 }

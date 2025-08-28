@@ -92,7 +92,7 @@ export const LendBooks = () => {
                 alert('Something went wrong, try again.');
                 return;
             }
-            if (lendings.some(lending=>(lending.returnDate===null&&overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay)>0))) {
+            if (lendings.some(lending=>(lending.returnDate==null&&overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay)>0))) {
                 alert(`No loans can be made when there are pending overdues.`);
                 return;
             }
@@ -131,6 +131,7 @@ export const LendBooks = () => {
                 alert(`Loan with uid ${lendRes.data.uid} created: ${userRes.data.name} - ${bookRes.data.name}`);
                 setSelectedBook({});
                 setSelectedUser({});
+                handleRefreshFilter();
             }
         } catch {
             alert('Server/axios error occured, please try again.');

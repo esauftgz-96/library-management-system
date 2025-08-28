@@ -7,15 +7,16 @@ import '../css/PagesWithTables.css';
 
 export const RenewLoan = () => {
     const {baseUrl,user,maxLoanPeriod,penaltyPerDay,maxRenewalsPerBook} = useAuth();
-    const [first,setFirst] = useState(true);
     const [userEmail, setUserEmail] = useState("");
     const [selectedUser, setSelectedUser] = useState({});
     const [lendings, setLendings] = useState([]);
+    const [refresh,setRefresh] = useState(0);
     
     useEffect(()=>{
-        const getLendings = async(uid) => {
+        const getLendings = async() => {
             try {
-                const res = await axios.get(baseUrl+`/api/lending/userid/${uid}`);
+                if (!selectedUser.uid) return;
+                const res = await axios.get(baseUrl+`/api/lending/userid/${selectedUser.uid}`);
                 if (res.status === 200) {
                     setLendings(res.data);
                 } else {
@@ -25,16 +26,12 @@ export const RenewLoan = () => {
                 alert('Server/axios error occured, please try again.');
             }
         }
-        if (!first) {
-            getLendings(selectedUser.uid);
-        } else {
-            setFirst(false);
-            return;
-        }
+        getLendings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[selectedUser.uid])
+    },[refresh])
 
     const handleEmail = (e) => {setUserEmail(e.target.value);};
+    const handleRefresh = () => {setRefresh(prev=>prev+1)};
 
     const searchUser = async() => {
         try {
@@ -42,7 +39,7 @@ export const RenewLoan = () => {
             if (res.status === 200 && res.data.uid) {
                 const user = res.data;
                 setSelectedUser(user);
-                setLendings([]);
+                handleRefresh();
             } else {
                 alert(`No user with matching email exists, please try again.`);
             }
@@ -70,8 +67,7 @@ export const RenewLoan = () => {
             const res = await axios.put(baseUrl+`/api/lending/update`,updatedLending);
             if (res.status === 200 && res.data.renewalCount === updatedLending.renewalCount) {
                 alert(`Book loan renewed`);
-                //triggers the dependency array
-                setSelectedUser({...selectedUser});
+                handleRefresh();
             } else {
                 alert('Something went wrong, try again.');
             }
@@ -111,7 +107,7 @@ export const RenewLoan = () => {
                 const lendRes = await axios.put(baseUrl+`/api/lending/update`,updatedLending);
                 if (userRes.status === 200 && userRes.data.uid === updatedUser.uid && bookRes.status === 200 && bookRes.data.uid === updatedBook.uid && lendRes.status === 200 && lendRes.data.returnDate === today.toISOString().split('T')[0]) {
                     alert(`Book returned.`);
-                    setSelectedUser({});
+                    handleRefresh();
                 } else {
                     alert('Something went wrong, try again.');
                 }
@@ -121,6 +117,14 @@ export const RenewLoan = () => {
         } catch {
             alert('Server/axios error occured, please try again.');
         }
+    }
+
+    //special care needed to handle dates
+    //or  dateObj.toLocaleDateString()
+    const findDueDate = (borrowDate) => {
+        const dateObj = new Date(borrowDate);
+        dateObj.setDate(dateObj.getDate()+14);
+        return (dateObj.toISOString().split('T')[0]);
     }
     
     if (user.isAdmin) {
@@ -143,7 +147,7 @@ export const RenewLoan = () => {
                         <tr>
                             <th>Book Title</th>
                             <th>Date Borrowed</th>
-                            <th>Date Returned</th>
+                            <th>Due Date</th>
                             <th>Renewals Done</th>
                             <th>Accumulated Fines</th>
                             <th>Options</th>
@@ -151,11 +155,11 @@ export const RenewLoan = () => {
                     </thead>
                     <tbody>
                         {
-                            lendings.filter(lending=>lending.returnDate===null).map(lending=>(
+                            lendings.filter(lending=>lending.returnDate==null).map(lending=>(
                                 <tr key={lending.uid}>
                                     <td>{lending.book.title}</td>
                                     <td>{lending.borrowDate}</td>
-                                    <td>{lending.returnDate ?? "Not returned"}</td>
+                                    <td>{findDueDate(lending.borrowDate)}</td>
                                     <td>{lending.renewalCount}</td>
                                     <td>{"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay).toFixed(2)}</td>
                                     <td><button onClick={()=>renewLending(lending)}>RENEW</button><button onClick={()=>returnBook(lending)}>RETURN</button></td>

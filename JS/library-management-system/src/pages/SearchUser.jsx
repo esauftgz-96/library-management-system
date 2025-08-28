@@ -36,8 +36,21 @@ export const SearchUser = () => {
 
                     try {
                         const res = await axios.get(baseUrl+`/api/user/filter?${params.toString()}`);
-                        setFilteredUsers(res.data);
-
+                        const usersWoLends = res.data;
+                        //forEach wont work, you need promise.all and map for this
+                        const userWithLends = await Promise.all(
+                            usersWoLends.map(
+                                async(user) => {
+                                    const lendRes = await axios.get(baseUrl+`/api/lending/userid/${user.uid}`);
+                                    const lends = lendRes.data;
+                                    return {
+                                        ...user,
+                                        lends:lends,
+                                    }
+                                }
+                            )
+                        )
+                        setFilteredUsers(userWithLends);
                     } catch {
                         alert('Server/axios error occured, please try again.');
                     }
@@ -116,8 +129,8 @@ export const SearchUser = () => {
                                     <td>{filteredUser.booksLent}</td>
                                     <td>{checkMembership(filteredUser.lastRegistered,membershipLength)}</td>
                                     <td>{filteredUser.isAdmin?"Admin":"User"}</td>
-                                    <td>{filteredUser.lends.filter(lend=>lend.returnDate===null).length}</td>
-                                    <td>${filteredUser.lends.filter(lend=>lend.returnDate===null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0).toFixed(2)}</td>
+                                    <td>{filteredUser.lends.filter(lend=>overdueCalc(lend.borrowDate,maxLoanPeriod,penaltyPerDay)>0).length}</td>
+                                    <td>${filteredUser.lends.filter(lend=>lend.returnDate==null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0).toFixed(2)}</td>
                                 </tr>
                             ))
                         }

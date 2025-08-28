@@ -46,4 +46,9 @@ public class UserService {
 	public void deleteUser (Long uid) {
 		userRepo.deleteById(uid);
 	}
+
+	//find user by filters
+	public List<UserModel> getFilteredUsers(int uid, String name, String email, int overdueCount, int maxLoanPeriod) {
+		return userRepo.getFilteredUsers(uid,name,email,overdueCount,maxLoanPeriod);
+	}
 }

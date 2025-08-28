@@ -14,6 +14,9 @@
     border-top-color: #fff;
     background: silver;
     color: #212529;
+
+    align-self: flex-start;
+    margin-top: 15px;
 }
 
 .windowheader {

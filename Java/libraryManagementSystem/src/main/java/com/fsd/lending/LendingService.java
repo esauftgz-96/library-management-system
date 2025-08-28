@@ -30,7 +30,7 @@ public class LendingService {
 	
 	//Find lending by user id
 	public List<LendingModel> getAllLendingsByUserId (Long userId) {
-		return lendingRepo.findByUser_Id(userId);
+		return lendingRepo.findByUser_Uid(userId);
 	}
 	
 	//Find lending by id

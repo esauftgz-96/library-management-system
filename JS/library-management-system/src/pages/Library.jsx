@@ -62,6 +62,7 @@ export const Library = () => {
             <h1 className="windowheader">Book List</h1>
             <div className="windowcontent">
                 <button onClick={handleRefreshAll} className="submitbutton">Show All Books</button>
+                <br />
                 <div  className="inputbox">
                     <label htmlFor="title">Title:</label><input id="title" type="text" value={filter.title} onChange={handleFilter}/>
                     <label htmlFor="author">Author:</label><input id="author" type="text" value={filter.author} onChange={handleFilter}/>

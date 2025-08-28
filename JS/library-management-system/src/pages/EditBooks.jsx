@@ -108,6 +108,23 @@ export const EditBooks = () => {
         }
     }
 
+    const deleteBook = async() => {
+        if (selectedBook.uid) {
+            try {
+                const res = await axios.delete(baseUrl+`/api/book/delete/${selectedBook.uid}`);
+                if (res.status === 200) {
+                    alert(`Book deleted, please refresh with the above Submit/Refresh button.`);
+                } else {
+                    alert('Server/axios error occured, please try again.');
+                }
+            } catch {
+                alert('Server/axios error occured, please try again.');
+            }
+        } else {
+            alert('Please select book first.')
+        }
+    }
+
     if (user.isAdmin) {
         return (<>
             <Navbar/>
@@ -172,6 +189,7 @@ export const EditBooks = () => {
                     <label htmlFor="copiesLent">Copies on Loan (Change in Return Books):</label><div>{selectedBook.uid===0?"":selectedBook.copiesLent}</div>
                     <button className="submitbutton">Submit Changes</button>
             </form>
+            <button className="submitbutton" onClick={deleteBook}>Delete Book</button>
                 </div>
             </div>    
         </>)

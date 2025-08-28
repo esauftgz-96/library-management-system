@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+//import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fsd.lending.LendingModel;
 
 import jakarta.persistence.CascadeType;
@@ -51,13 +53,14 @@ public class UserModel {
 	
 	@Column(name="is_admin")
 	@NotNull
+	@JsonProperty("isAdmin")
 	private boolean isAdmin;
 	
 	@Column(name="books_lent")
 	@NotNull
 	private int booksLent;
 	
-	@Column(name="last_registered")
+	@Column(name="last_registered",nullable=true)
 	private LocalDate lastRegistered;
 
 	public UserModel(@NotNull String name, @NotNull LocalDate birthday, @NotNull String address,
@@ -160,7 +163,8 @@ public class UserModel {
 	}
 	
 	@OneToMany (mappedBy="user",cascade=CascadeType.ALL)
-	@JsonIgnoreProperties("user")
+//	@JsonManagedReference(value="user-lend")
+	@JsonIgnore
 	private List<LendingModel> lends = new ArrayList<>();
 
 	public List<LendingModel> getLends() {

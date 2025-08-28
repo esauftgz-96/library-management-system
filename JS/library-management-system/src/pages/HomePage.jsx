@@ -7,7 +7,7 @@ export const HomePage = () => {
 
     return (<>
         <Navbar/>
-        <div className="container">
+        <div className="containerhome">
             <h1 className="windowheader">Home Page</h1>
             <div className="windowcontent">
                 <div>Welcome, {user.name}!</div>

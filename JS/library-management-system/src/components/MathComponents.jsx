@@ -24,6 +24,7 @@ export const overdueCalc = (borrowDate,maxLoanPeriod,penaltyPerDay) => {
     if (diffInDays <= maxLoanPeriod) {
         return 0;
     } else {
-        return Math.max(20,(diffInDays-maxLoanPeriod)*penaltyPerDay);
+        return Math.min(20,(diffInDays-maxLoanPeriod)*penaltyPerDay);
     }
+    // NOTE: the filter must be ==null and not ===null because json may return it as undefined
 };

@@ -48,7 +48,7 @@ export const Login = () => {
     };
 
     return (
-        <div className='container'>
+        <div className='containerlogin'>
             <h1 className='windowheader'>Login Page</h1>
             <div className='windowcontent'>
                 <form onSubmit={handleSubmit} className="inputbox">

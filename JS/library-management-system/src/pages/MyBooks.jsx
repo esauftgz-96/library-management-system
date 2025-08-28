@@ -42,7 +42,7 @@ export const MyBooks = () => {
         <div className="container">
             <h1 className="windowheader">My Books</h1>
             <div>Total Accumulated Fines = ${
-                lendings.filter(lending=>lending.returnDate===null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0).toFixed(2)
+                lendings.filter(lending=>lending.returnDate==null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0).toFixed(2)
                 }
             </div>
             <div  className="inputboxwithspacing">
@@ -64,7 +64,7 @@ export const MyBooks = () => {
                 <tbody>
                     {
                         pendingToggle? (
-                            lendings.filter(lending=>lending.returnDate===null).map(lending=>(
+                            lendings.filter(lending=>lending.returnDate==null).map(lending=>(
                                 <tr key={lending.uid}>
                                     <td>{lending.book.title}</td>
                                     <td>{lending.borrowDate}</td>

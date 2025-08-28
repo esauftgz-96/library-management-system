@@ -76,8 +76,9 @@ export const UserProfile = () => {
             <h1 className="windowheader">Profile Details</h1>
             <div className="windowcontent">
                 <button onClick={handleRefresh} className="submitbutton">Refresh</button>
+                <br />
                 <form onSubmit={handleSubmit}  className="inputbox">
-                    <label htmlFor="name"></label>Name<input id="name" type="text" value={userDetails.name} onChange={handleForm}/>
+                    <label htmlFor="name">Name</label><input id="name" type="text" value={userDetails.name} onChange={handleForm}/>
                     <label htmlFor="birthday">Date of Birth</label><input id="birthday" type="date" value={userDetails.birthday} onChange={handleForm}/>
                     <label htmlFor="address">Address</label><input id="address" type="text" value={userDetails.address} onChange={handleForm}/>
                     <label htmlFor="contactNumber">Contact</label><input id="contactNumber" type="text" value={userDetails.contactNumber} onChange={handleForm}/>

@@ -81,10 +81,10 @@ export const AdminProfile = () => {
 
     const resetPassword = async() => {
         if (userDetails.uid) {
-            const blankPassword = hashPassword("");
+            const blankPassword = await hashPassword("");
             const updatedUser = {
                 ...userDetails,
-                password: blankPassword,
+                passwordHashed: blankPassword,
             };
             try {
                 const res = await axios.put(baseUrl+`/api/user/update`,updatedUser);
@@ -106,7 +106,7 @@ export const AdminProfile = () => {
     const deleteUser = async() => {
         if (userDetails.uid) {
             try {
-                const res = await axios.delete(baseUrl+`/api/user/update/${userDetails.uid}`);
+                const res = await axios.delete(baseUrl+`/api/user/delete/${userDetails.uid}`);
                 if (res.status === 200) {
                     alert(`User deleted, please refresh with the above Submit/Refresh button.`);
                 } else {
@@ -135,7 +135,7 @@ export const AdminProfile = () => {
 
             <div className="tablecontainer">
                 <table>
-                    <tr><th>Field</th><td>Edit</td></tr>
+                    <tr><th>Field</th><th>Edit</th></tr>
                     <tr><th>User ID (fixed)</th><td>{userDetails.name}</td></tr>
                     <tr><th>Email (fixed)</th><td>{userDetails.email}</td></tr>
 
@@ -144,7 +144,7 @@ export const AdminProfile = () => {
                     <tr><th><label htmlFor="address">Address</label></th><td><input id="address" type="text" value={userDetails.address} onChange={handleUserDetails}/></td></tr>
                     <tr><th><label htmlFor="contactNumber">Contact Number</label></th><td><input id="contactNumber" type="text" value={userDetails.contactNumber} onChange={handleUserDetails}/></td></tr>
 
-                    <tr><th>Membership Status</th><td>{userDetails.lastRegistered ? checkMembership(userDetails.lastRegistered,membershipLength) : ""}</td></tr>
+                    <tr><th>Membership Status</th><td>{userDetails.lastRegistered ? checkMembership(userDetails.lastRegistered,membershipLength) : "Inactive"}</td></tr>
                     <tr><th>Membership Last Renewed</th><td>{userDetails.lastRegistered}</td></tr>
                     <tr><th><label htmlFor="isAdmin">Admin?</label></th><td><input id="isAdmin" type="checkbox" checked={userDetails.isAdmin} onChange={handleUserDetails}/><label htmlFor="isAdmin">{userDetails.isAdmin ? "Admin" : "User" }</label></td></tr>
                     <tr><th>Books on Loan (cannot change, please handle in Returns)</th><td>{userDetails.booksLent}</td></tr>
