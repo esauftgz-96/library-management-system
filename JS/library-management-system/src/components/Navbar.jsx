@@ -30,6 +30,7 @@ export const Navbar = () => {
                     <Link to="/addbooks">Add Books</Link>
                     <Link to="/editbooks">Edit Books</Link>
                     <Link to="/lendbooks">Loan Books</Link>
+                    <Link to="/overdue">Overdues</Link>
                     <Link to="/renewloan">Book Returns/Loan Renewal</Link>
                 </div>
             </div>

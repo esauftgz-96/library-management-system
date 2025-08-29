@@ -14,6 +14,7 @@ import { AddBooks } from './pages/AddBooks';
 import { EditBooks } from './pages/EditBooks';
 import { LendBooks } from './pages/LendBooks';
 import { RenewLoan } from './pages/RenewLoan';
+import { Overdue } from './pages/Overdue';
 
 function App() {
   console.log('App start.')
@@ -38,6 +39,7 @@ function App() {
             <Route path="/editbooks" element={<EditBooks />} />
             <Route path="/lendbooks" element={<LendBooks />} />
             <Route path="/renewloan" element={<RenewLoan />} />
+            <Route path="/overdue" element={<Overdue />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

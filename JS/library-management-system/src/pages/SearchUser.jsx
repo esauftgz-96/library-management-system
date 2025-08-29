@@ -93,7 +93,7 @@ export const SearchUser = () => {
                         <label htmlFor="uid">User ID (exact)</label><input type="number" id="uid" value={filter.uid===-1?"":filter.uid} onChange={handleFilter}/>
                         <label htmlFor="name">Name</label><input type="text" id="name" value={filter.name} onChange={handleFilter}/>
                         <label htmlFor="email">Email</label><input type="text" id="email" value={filter.email} onChange={handleFilter}/>
-                        <label htmlFor="checkOverdue">Filter Overdue(Total, exact)?</label><div><input type="checkbox" id="checkOverdue" checked={filter.checkOverdue} onChange={handleFilter}/><input type="number" id="overdueCount" value={filter.overdueCount} onChange={handleFilter}/></div>
+                        <label htmlFor="checkOverdue">Filter Overdue? <input type="checkbox" id="checkOverdue" checked={filter.checkOverdue} onChange={handleFilter}/> (Equal or More than)</label><div><input type="number" id="overdueCount" value={filter.overdueCount} onChange={handleFilter}/></div>
                         <button className="submitbutton">Submit</button>
                     </form>
                 </div>     

@@ -25,7 +25,7 @@ public interface UserRepo extends JpaRepository<UserModel, Long>{
 		              WHERE l.user_uid = u.uid
 		                AND l.return_date IS NULL
 		                AND DATEDIFF(CURRENT_DATE, l.borrow_date) > :maxLoanPeriod
-		          ) = :overdueCount
+		          ) >= :overdueCount
 		      )
 		""", nativeQuery = true)
 	//	nativeQuery allows for native mySQL language
