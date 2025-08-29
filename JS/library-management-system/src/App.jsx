@@ -21,28 +21,29 @@ function App() {
 
   return (
     <>
-      <AuthProvider>
+      
         <BrowserRouter>
-          <Routes>
-            {/* <Route path="/" element={< />} /> */}
-            <Route path="/" element={<Login/>}/>
-            <Route path="/registration" element={<Registration/>}/>
-            {/* user functions */}
-            <Route path="/homepage" element={<HomePage />} />
-            <Route path="/library" element={<Library />} />
-            <Route path="/mybooks" element={<MyBooks />} />
-            <Route path="/userprofile" element={<UserProfile />} />
-            {/* admin functions, REMEMBER to check with useAuth() */}
-            <Route path="/searchuser" element={<SearchUser />} />
-            <Route path="/adminprofile" element={<AdminProfile />} />
-            <Route path="/addbooks" element={<AddBooks />} />
-            <Route path="/editbooks" element={<EditBooks />} />
-            <Route path="/lendbooks" element={<LendBooks />} />
-            <Route path="/renewloan" element={<RenewLoan />} />
-            <Route path="/overdue" element={<Overdue />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              {/* <Route path="/" element={< />} /> */}
+              <Route path="/" element={<Login/>}/>
+              <Route path="/registration" element={<Registration/>}/>
+              {/* user functions */}
+              <Route path="/homepage" element={<HomePage />} />
+              <Route path="/library" element={<Library />} />
+              <Route path="/mybooks" element={<MyBooks />} />
+              <Route path="/userprofile" element={<UserProfile />} />
+              {/* admin functions, REMEMBER to check with useAuth() */}
+              <Route path="/searchuser" element={<SearchUser />} />
+              <Route path="/adminprofile" element={<AdminProfile />} />
+              <Route path="/addbooks" element={<AddBooks />} />
+              <Route path="/editbooks" element={<EditBooks />} />
+              <Route path="/lendbooks" element={<LendBooks />} />
+              <Route path="/renewloan" element={<RenewLoan />} />
+              <Route path="/overdue" element={<Overdue />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
-      </AuthProvider>
     </>
   )
 }
