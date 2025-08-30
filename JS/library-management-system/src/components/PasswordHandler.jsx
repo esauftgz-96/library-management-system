@@ -12,6 +12,8 @@
 
 // bcrypt doesnt work in the frontend, use brcryptjs instead
 
+// depreciated: now using bcrypt in java instead
+
 import bcrypt from 'bcryptjs';
 
 const saltRounds = 10;

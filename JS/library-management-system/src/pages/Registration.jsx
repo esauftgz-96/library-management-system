@@ -1,7 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from "react";
 import axios from 'axios';
-import { hashPassword } from '../components/PasswordHandler';
 import { useAuth } from '../components/AuthHandler';
 import '../css/Registration.css'
 
@@ -35,22 +34,21 @@ export const Registration = () => {
             alert('Please fill in any empty fields.');
         } else {
             try {
-                const res = await axios.get(baseUrl+`/api/user/email/${registrationForm.email}`);
-                if (res.data !== null) {
+                const res = await axios.post(baseUrl+`/api/user/checkemail`,{email:registrationForm.email});
+                if (res.data === true) {
                     alert('Email already exists. Please try another email.');
                     setRegistrationForm((prev) => ({
                         ...prev,
                         email: "", 
                     }));
                 } else {
-                    const passwordHashed = await hashPassword(registrationForm.password);
                     const registrationRes = await axios.post(baseUrl+`/api/user/new`,{
                         name: registrationForm.name,
                         birthday: registrationForm.birthday,
                         address: registrationForm.address,
                         email: registrationForm.email,
                         contactNumber: registrationForm.contactNumber,
-                        passwordHashed,
+                        passwordHashed: registrationForm.password,
                     });
                     if (registrationRes.status === 200 && registrationRes.data.email === registrationForm.email) {
                         alert('Account created, please login.');

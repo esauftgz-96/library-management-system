@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
-import { hashPassword } from "../components/PasswordHandler";
 import { checkMembership } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
@@ -81,14 +80,13 @@ export const AdminProfile = () => {
 
     const resetPassword = async() => {
         if (userDetails.uid) {
-            const blankPassword = await hashPassword("");
             const updatedUser = {
                 ...userDetails,
-                passwordHashed: blankPassword,
+                passwordHashed: "",
             };
             try {
                 const res = await axios.put(baseUrl+`/api/user/update`,updatedUser);
-                if (res.status === 200 && res.data.passwordHashed === blankPassword) {
+                if (res.status === 200) {
                     alert('Password reset to blank. Please inform user to create new password.');
                     setUserEmail(res.data.email);
                     searchByEmail(res.data.email);

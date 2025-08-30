@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from 'axios';
 import { useAuth } from "../components/AuthHandler";
 import { useNavigate, Link } from 'react-router-dom';
-import { verifyPassword } from "../components/PasswordHandler";
 import '../css/Login.css';
 
 export const Login = () => {
@@ -24,19 +23,13 @@ export const Login = () => {
         e.preventDefault();
         try {
             //remember: res await, then extract with .data
-            const res = await axios.get(baseUrl+`/api/user/email/${email}`);
-            const user = res.data;
-            if (user) {
-                const passwordCheck = await verifyPassword(password, user.passwordHashed);
-                if (passwordCheck) {
-                    alert('Login successful!');
-                    login(user);
-                    navigate('/homepage');
-                } else {
-                    alert('Email does not exist or password is wrong. Please try again.');
-                    setEmail("");
-                    setPassword("");
-                }
+            const res = await axios.post(baseUrl+`/api/user/login`,{email,password,});
+            const { token, user } = res.data;
+            if (token && user) {
+                alert('Login successful!');
+                localStorage.setItem("token", token);
+                login(user);
+                navigate('/homepage');
             } else {
                 alert('Email does not exist or password is wrong. Please try again.');
                 setEmail("");

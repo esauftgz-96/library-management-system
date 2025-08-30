@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
-import { hashPassword } from "../components/PasswordHandler";
 import { checkMembership } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
@@ -50,13 +49,12 @@ export const UserProfile = () => {
     const handlePasswordChange = async (e) => {
         e.preventDefault();
         try {
-            const newPasswordSubmit = await hashPassword(newPassword);
             const userPWChange = {
                 ...user,
-                passwordHashed: newPasswordSubmit,
+                passwordHashed: newPassword,
             }
             const res = await axios.put(baseUrl+`/api/user/update`,userPWChange);
-            if (res.status === 200 && res.data.passwordHashed === newPasswordSubmit) {
+            if (res.status === 200) {
                     alert('Password changed.');
                     login(userDetails);
                 } else {

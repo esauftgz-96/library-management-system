@@ -1,13 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     const[user,setUser]=useState(null);
-    const login = (userData) => { setUser(userData); };
-    const logout = () => setUser(null);
     const navigate = useNavigate();
     const baseUrl = "http://localhost:8080";
 
@@ -28,6 +27,56 @@ export const AuthProvider = ({children}) => {
         debounce: 500,
         crossTab: false,
     })
+
+    //login, then with stored token (see Login.jsx), set axios header
+    const login = (userData) => {
+    const token = localStorage.getItem("token");
+        if (token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        console.log(`Token ${token} added to storage.`)
+        }
+        setUser(userData);
+    };
+
+    //logout, removes the token
+    const logout = () => {
+        localStorage.removeItem("token");
+        delete axios.defaults.headers.common["Authorization"];
+        setUser(null);
+        navigate("/");
+    };
+
+    // axios interceptor to check if the token is expired
+    useEffect(() => {
+        //intercept before trycatch
+        //on mount, setup this global axios setting
+        const interceptor = axios.interceptors.response.use(
+            //if no issue, use response as response
+            response => response,
+            //if error met like with 401
+            error => {
+                //backend setup so 401 for every request without authorization validation
+                if (error.response && error.response.status === 401) {
+                alert("Session expired. Please log in again.");
+                logout();
+                }
+                //then pass on so the trycatch can catch
+                return Promise.reject(error);
+            }
+        );
+
+        //cleanup
+        return () => axios.interceptors.response.eject(interceptor);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user]);
+
+    //use below only if persistent login between sessions is needed
+    // useEffect(() => {
+    // const token = localStorage.getItem("token");
+    // if (token) {
+    //     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    // }
+    // }, []);
 
     return (
         <AuthContext.Provider value = {{user,login,logout,baseUrl,maxLoanPeriod,maxRenewalsPerBook,maxFinePenalty,membershipLength,penaltyPerDay,maxBooksLent}}>
