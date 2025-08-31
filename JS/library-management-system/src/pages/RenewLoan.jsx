@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
-import { overdueCalc } from "../components/MathComponents";
+import { overdueCalc, findDueDate } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
 export const RenewLoan = () => {
@@ -117,14 +117,6 @@ export const RenewLoan = () => {
         } catch {
             alert('Server/axios error occured, please try again.');
         }
-    }
-
-    //special care needed to handle dates
-    //or  dateObj.toLocaleDateString()
-    const findDueDate = (borrowDate) => {
-        const dateObj = new Date(borrowDate);
-        dateObj.setDate(dateObj.getDate()+14);
-        return (dateObj.toISOString().split('T')[0]);
     }
     
     if (user.isAdmin) {

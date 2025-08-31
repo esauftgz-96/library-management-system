@@ -190,7 +190,7 @@ export const LendBooks = () => {
                 <h1 className="windowheader">Step 2: Select User by Email</h1>
                 <div className="windowcontent">
                     <div className="inputbox">
-                        <label htmlFor="email">Input email:</label><input type="text" id="email" value={userEmail} onChange={handleEmail}/>
+                        <label htmlFor="email">Input email (exact):</label><input type="text" id="email" value={userEmail} onChange={handleEmail}/>
                         <button onClick={searchUser} className="submitbutton">Search & Select</button>
                     </div>
                     <div className="report">{!selectedUser.uid?"":<>User Found: {selectedUser.name}</>}</div>

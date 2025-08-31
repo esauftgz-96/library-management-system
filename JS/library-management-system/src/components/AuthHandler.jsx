@@ -10,12 +10,14 @@ export const AuthProvider = ({children}) => {
     const navigate = useNavigate();
     const baseUrl = "http://localhost:8080";
 
+    // Business rules
     const maxLoanPeriod = 14;
     const maxRenewalsPerBook = 2;
     const maxFinePenalty = 10;
     const membershipLength = 365;
     const penaltyPerDay = 0.5;
     const maxBooksLent = 3;
+    // End of business rules
 
     useIdleTimer({
         enabled:!!user,

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
-import { overdueCalc } from "../components/MathComponents";
+import { overdueCalc, findDueDate } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
 export const MyBooks = () => {
@@ -56,6 +56,7 @@ export const MyBooks = () => {
                     <tr>
                         <th>Book Title</th>
                         <th>Date Borrowed</th>
+                        <th>Due Date</th>
                         <th>Date Returned</th>
                         <th>Renewals Done</th>
                         <th>Accumulated Fines</th>
@@ -68,6 +69,7 @@ export const MyBooks = () => {
                                 <tr key={lending.uid}>
                                     <td>{lending.book.title}</td>
                                     <td>{lending.borrowDate}</td>
+                                    <td>{findDueDate(lending.borrowDate)}</td>
                                     <td>{lending.returnDate ?? "Not returned"}</td>
                                     <td>{lending.renewalCount}</td>
                                     <td>{"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay).toFixed(2)}</td>
@@ -80,6 +82,7 @@ export const MyBooks = () => {
                                 <tr key={lending.uid}>
                                     <td>{lending.book.title}</td>
                                     <td>{lending.borrowDate}</td>
+                                    <td>{findDueDate(lending.borrowDate)}</td>
                                     <td>{lending.returnDate ?? "Not returned"}</td>
                                     <td>{lending.renewalCount}</td>
                                     <td>{lending.returnDate?"Returned":"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay).toFixed(2)}</td>

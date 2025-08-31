@@ -28,3 +28,11 @@ export const overdueCalc = (borrowDate,maxLoanPeriod,penaltyPerDay) => {
     }
     // NOTE: the filter must be ==null and not ===null because json may return it as undefined
 };
+
+//special care needed to handle dates
+//or  dateObj.toLocaleDateString()
+export const findDueDate = (borrowDate) => {
+    const dateObj = new Date(borrowDate);
+    dateObj.setDate(dateObj.getDate()+14);
+    return (dateObj.toISOString().split('T')[0]);
+}

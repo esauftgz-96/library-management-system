@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../components/AuthHandler";
 import axios from 'axios';
 import { Navbar } from "../components/Navbar";
-import { overdueCalc } from "../components/MathComponents";
+import { overdueCalc, findDueDate } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
 export const Overdue = () => {
@@ -69,6 +69,7 @@ export const Overdue = () => {
                         <tr>
                             <th>Book Title</th>
                             <th>Date Borrowed</th>
+                            <th>Due Date</th>
                             <th>Accumulated Fines</th>
                             <th>User Name</th>
                             <th>User Email</th>
@@ -81,6 +82,7 @@ export const Overdue = () => {
                                 <tr key={lend.uid}>
                                     <td>{lend.book.title}</td>
                                     <td>{lend.borrowDate}</td>
+                                    <td>{findDueDate(lend.borrowDate)}</td>
                                     <td>{`$${overdueCalc(lend.borrowDate,maxLoanPeriod,penaltyPerDay).toFixed(2)}`}</td>
                                     <td>{lend.user.name}</td>
                                     <td>{lend.user.email}</td>
