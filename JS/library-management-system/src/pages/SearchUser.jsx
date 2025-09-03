@@ -6,7 +6,7 @@ import { checkMembership,overdueCalc } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
 export const SearchUser = () => {
-    const {user,baseUrl,maxLoanPeriod,membershipLength,penaltyPerDay} = useAuth();
+    const {user,baseUrl,maxLoanPeriod,membershipLength,penaltyPerDay,maxFinePenalty} = useAuth();
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [first,setFirst] = useState(true);
     const [submit, setSubmit] = useState(0);
@@ -129,8 +129,8 @@ export const SearchUser = () => {
                                     <td>{filteredUser.booksLent}</td>
                                     <td>{checkMembership(filteredUser.lastRegistered,membershipLength)}</td>
                                     <td>{filteredUser.isAdmin?"Admin":"User"}</td>
-                                    <td>{filteredUser.lends.filter(lend=>overdueCalc(lend.borrowDate,maxLoanPeriod,penaltyPerDay)>0).length}</td>
-                                    <td>${filteredUser.lends.filter(lend=>lend.returnDate==null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0).toFixed(2)}</td>
+                                    <td>{filteredUser.lends.filter(lend=>overdueCalc(lend.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty)>0).length}</td>
+                                    <td>${filteredUser.lends.filter(lend=>lend.returnDate==null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty),0).toFixed(2)}</td>
                                 </tr>
                             ))
                         }

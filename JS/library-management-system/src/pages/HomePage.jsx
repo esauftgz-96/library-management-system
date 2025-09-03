@@ -6,7 +6,7 @@ import axios from 'axios';
 import '../css/HomePage.css'
 
 export const HomePage = () => {
-    const {user,baseUrl,maxLoanPeriod,penaltyPerDay} = useAuth();
+    const {user,baseUrl,maxLoanPeriod,penaltyPerDay,maxFinePenalty} = useAuth();
 
     useEffect(
         ()=>{
@@ -18,7 +18,7 @@ export const HomePage = () => {
     const overdueAlert = async() => {
         try {
             const res = await axios.get(baseUrl+`/api/lending/userid/${user.uid}`);
-            const totalFines = res.data.filter(lend=>lend.returnDate==null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0);
+            const totalFines = res.data.filter(lend=>lend.returnDate==null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty),0);
             if (totalFines>0) {
                 alert(`You have a pending overdue of $${totalFines.toFixed(2)}. Please check the full details in My Books.`);
             } else {

@@ -6,7 +6,7 @@ import { overdueCalc, findDueDate } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
 export const Overdue = () => {
-    const {user,baseUrl,maxLoanPeriod,penaltyPerDay} = useAuth();
+    const {user,baseUrl,maxLoanPeriod,penaltyPerDay,maxFinePenalty} = useAuth();
     const [lends,setLends] = useState([]);
     const [filter,setFilter] = useState({
         titleContaining: "",
@@ -28,7 +28,7 @@ export const Overdue = () => {
             const res = await axios.get(baseUrl+`/api/lending/all`);
             if (res.status === 200) {
                 let lendList = res.data;
-                lendList = lendList.filter(lend=>(overdueCalc(lend.borrowDate,maxLoanPeriod,penaltyPerDay)>0));
+                lendList = lendList.filter(lend=>(overdueCalc(lend.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty)>0));
                 if (filter.titleContaining) {
                     const substring = filter.titleContaining.toLowerCase().trim();
                     lendList = lendList.filter(lend=>(lend.book.title.toLowerCase().includes(substring)));
@@ -83,7 +83,7 @@ export const Overdue = () => {
                                     <td>{lend.book.title}</td>
                                     <td>{lend.borrowDate}</td>
                                     <td>{findDueDate(lend.borrowDate)}</td>
-                                    <td>{`$${overdueCalc(lend.borrowDate,maxLoanPeriod,penaltyPerDay).toFixed(2)}`}</td>
+                                    <td>{`$${overdueCalc(lend.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty).toFixed(2)}`}</td>
                                     <td>{lend.user.name}</td>
                                     <td>{lend.user.email}</td>
                                     <td>{lend.user.contactNumber}</td>

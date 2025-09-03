@@ -6,7 +6,7 @@ import { overdueCalc, findDueDate } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
 export const MyBooks = () => {
-    const {user, baseUrl,maxLoanPeriod,penaltyPerDay} = useAuth();
+    const {user, baseUrl,maxLoanPeriod,penaltyPerDay,maxFinePenalty} = useAuth();
     const [lendings, setLendings] = useState([]);
     const [refresh, setRefresh] = useState(0);
     const [pendingToggle, setPendingToggle] = useState(false);
@@ -42,7 +42,7 @@ export const MyBooks = () => {
         <div className="container">
             <h1 className="windowheader">My Books</h1>
             <div>Total Accumulated Fines = ${
-                lendings.filter(lending=>lending.returnDate==null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay),0).toFixed(2)
+                lendings.filter(lending=>lending.returnDate==null).reduce((acc,val)=>acc+overdueCalc(val.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty),0).toFixed(2)
                 }
             </div>
             <div  className="inputboxwithspacing">
@@ -72,7 +72,7 @@ export const MyBooks = () => {
                                     <td>{findDueDate(lending.borrowDate)}</td>
                                     <td>{lending.returnDate ?? "Not returned"}</td>
                                     <td>{lending.renewalCount}</td>
-                                    <td>{"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay).toFixed(2)}</td>
+                                    <td>{"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty).toFixed(2)}</td>
                                 </tr>
                             ))
                         ) 
@@ -85,7 +85,7 @@ export const MyBooks = () => {
                                     <td>{findDueDate(lending.borrowDate)}</td>
                                     <td>{lending.returnDate ?? "Not returned"}</td>
                                     <td>{lending.renewalCount}</td>
-                                    <td>{lending.returnDate?"Returned":"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay).toFixed(2)}</td>
+                                    <td>{lending.returnDate?"Returned":"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty).toFixed(2)}</td>
                                 </tr>
                             ))
                         )

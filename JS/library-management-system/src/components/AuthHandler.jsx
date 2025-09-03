@@ -13,10 +13,11 @@ export const AuthProvider = ({children}) => {
     // Business rules
     const maxLoanPeriod = 14;
     const maxRenewalsPerBook = 2;
-    const maxFinePenalty = 10;
+    const maxFinePenalty = 20;
     const membershipLength = 365;
     const penaltyPerDay = 0.5;
     const maxBooksLent = 3;
+    const overdueLimitForLending = 10;
     // End of business rules
 
     useIdleTimer({
@@ -81,7 +82,7 @@ export const AuthProvider = ({children}) => {
     // }, []);
 
     return (
-        <AuthContext.Provider value = {{user,login,logout,baseUrl,maxLoanPeriod,maxRenewalsPerBook,maxFinePenalty,membershipLength,penaltyPerDay,maxBooksLent}}>
+        <AuthContext.Provider value = {{user,login,logout,baseUrl,maxLoanPeriod,maxRenewalsPerBook,maxFinePenalty,membershipLength,penaltyPerDay,maxBooksLent,overdueLimitForLending}}>
             {children}
         </AuthContext.Provider>
     )

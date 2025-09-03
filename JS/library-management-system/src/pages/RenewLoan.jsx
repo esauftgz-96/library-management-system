@@ -6,7 +6,7 @@ import { overdueCalc, findDueDate } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
 export const RenewLoan = () => {
-    const {baseUrl,user,maxLoanPeriod,penaltyPerDay,maxRenewalsPerBook} = useAuth();
+    const {baseUrl,user,maxLoanPeriod,penaltyPerDay,maxRenewalsPerBook,maxFinePenalty} = useAuth();
     const [userEmail, setUserEmail] = useState("");
     const [selectedUser, setSelectedUser] = useState({});
     const [lendings, setLendings] = useState([]);
@@ -49,7 +49,7 @@ export const RenewLoan = () => {
     }
 
     const renewLending = async(lending) => {
-        if (overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay)>0) {
+        if (overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty)>0) {
             alert('Pending overdue fine. Do not renew.');
             return;
         }
@@ -77,7 +77,7 @@ export const RenewLoan = () => {
     }
 
     const returnBook = async(lending) => {
-        const fine = overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay);
+        const fine = overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty);
         if (fine>0) {
             const confirmLoanPaid = window.confirm(`Please confirm whethere the outstanding loan of $${fine.toFixed(2)} has been paid.`)
             if (!confirmLoanPaid) {
@@ -153,7 +153,7 @@ export const RenewLoan = () => {
                                     <td>{lending.borrowDate}</td>
                                     <td>{findDueDate(lending.borrowDate)}</td>
                                     <td>{lending.renewalCount}</td>
-                                    <td>{"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay).toFixed(2)}</td>
+                                    <td>{"$"+overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty).toFixed(2)}</td>
                                     <td><button onClick={()=>renewLending(lending)}>RENEW</button><button onClick={()=>returnBook(lending)}>RETURN</button></td>
                                 </tr>
                             ))

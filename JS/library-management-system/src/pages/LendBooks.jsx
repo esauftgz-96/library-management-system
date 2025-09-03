@@ -6,7 +6,7 @@ import { checkMembership,overdueCalc } from "../components/MathComponents";
 import '../css/PagesWithTables.css';
 
 export const LendBooks = () => {
-    const {baseUrl,user,maxLoanPeriod,membershipLength,penaltyPerDay,maxBooksLent} = useAuth();
+    const {baseUrl,user,maxLoanPeriod,membershipLength,penaltyPerDay,maxBooksLent,overdueLimitForLending,maxFinePenalty} = useAuth();
     const [first,setFirst] = useState(true);
     const [selectedBook, setSelectedBook] = useState({});
     const [selectedUser, setSelectedUser] = useState({});
@@ -92,8 +92,12 @@ export const LendBooks = () => {
                 alert('Something went wrong, try again.');
                 return;
             }
-            if (lendings.some(lending=>(lending.returnDate==null&&overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay)>0))) {
-                alert(`No loans can be made when there are pending overdues.`);
+            if (lendings.some(lending=>(lending.returnDate==null&&((new Date() - new Date(lending.borrowDate)) / (1000 * 60 * 60 * 24)) > maxLoanPeriod))) {
+                alert(`No loans can be made while there are overdues.`)
+                return;
+            }
+            if (lendings.some(lending=>(lending.returnDate==null&&overdueCalc(lending.borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty)>overdueLimitForLending))) {
+                alert(`No loans can be made when the pending overdue fines is above $${overdueLimitForLending}.`);
                 return;
             }
             if (selectedUser.booksLent>=maxBooksLent) {

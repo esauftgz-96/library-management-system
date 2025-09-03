@@ -13,7 +13,7 @@ export const checkMembership = (lastRegistered,membershipLength) => {
     }
 }
 
-export const overdueCalc = (borrowDate,maxLoanPeriod,penaltyPerDay) => {
+export const overdueCalc = (borrowDate,maxLoanPeriod,penaltyPerDay,maxFinePenalty) => {
     const borrowedOn = new Date(borrowDate);
     const today = new Date();
     //clear out timing for absolute days
@@ -24,7 +24,7 @@ export const overdueCalc = (borrowDate,maxLoanPeriod,penaltyPerDay) => {
     if (diffInDays <= maxLoanPeriod) {
         return 0;
     } else {
-        return Math.min(20,(diffInDays-maxLoanPeriod)*penaltyPerDay);
+        return Math.min(maxFinePenalty,(diffInDays-maxLoanPeriod)*penaltyPerDay);
     }
     // NOTE: the filter must be ==null and not ===null because json may return it as undefined
 };
